@@ -31,7 +31,12 @@ class entity{
     protected $lastAction;
     
     protected $behaviours = array(
-    
+        0=>array(
+            'conditions'=>array(
+                array('target'=>'SELF|'),
+            ),
+            'action'=>array(),
+        )
     
     );
 
@@ -84,6 +89,7 @@ Birth 10% 20% 30% 40%
 Merge 
 
 If States:  
+
 Self.energy 
 Self.alive 
 Self.exists 
@@ -91,10 +97,19 @@ Self.lastAction
 
 Neighbor.energy 
 Neighbour.alive 
-Neighbour.exist 
-Neighbour.count 1-8 
-Neighbour.pattern x +  
+Neighbour.exists 
+Neighbour.lastAction 
 
+Neighbours.count 1-8 
+Neighbours.pattern x +  
+
+
+Condition :
+target
+function
+params
+ 
+ 
  
 If and or 
 If multi clauses 
