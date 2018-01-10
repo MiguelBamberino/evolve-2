@@ -2,21 +2,6 @@
 
 /*
 
-Cell World:
-The world is made up of a 100x100 grid
-each grid cell is a world position
-each position may contain 1 or 0 entities
-
-an entity has state:{energy,position,state(ALIVE|DEAD|DECAYED)}
-an entity have a function for life
-an entity has 1-many behaviour routines
-given an entity is alive then it will select a behaviour to carry out
-a behaviour is made up of a condition and action to carry out, given the condition is true
-an entity will only carry out 1 behaviour per tick
-
-a tick represents a moment in the world 
-every tick every entity performs its function for life 
-
 */
 class entity{
 
@@ -90,14 +75,14 @@ Merge
 
 If States:  
 
-Self.energy 
-Self.alive 
-Self.exists 
+Self.energy | =,=>,>,<=,< | integer
+Self.alive | = | true
 Self.lastAction 
 
-Neighbor.energy 
-Neighbour.alive 
-Neighbour.exists 
+Neighbour = Neighbours.random,Neighbours.first,Neighbours.last
+
+Neighbour.energy | =,=>,>,<=,< | integer
+Neighbour.alive | = | true,false 
 Neighbour.lastAction 
 
 Neighbours.count 1-8 
@@ -107,7 +92,8 @@ Neighbours.pattern x +
 Condition :
 target
 function
-params
+operator
+value
  
  
  
@@ -117,6 +103,68 @@ Multi cases
 Entity has x case/behaviour slots 
 Each behaviour slot contains condition then action 
 
-
-
 */
+class Condition{
+    
+    protected $world;
+    
+    protected $target;
+    protected $method;
+    protected $operator;
+    protected $value;
+    
+    public function __construct($world, $target, $method, $operator, $value ){
+        
+        $this->world = $world;
+        
+        $this->target = $target;
+        $this->method = $method;
+        $this->operator = $operator;
+        $this->value = $value;
+    }
+    
+    public function getValueFromTarget($position){
+        
+    }
+    protected function getTargetObject($position){
+        switch($this->target){
+            case 'self':
+                return $this->world->getEntityAt($position);
+                break;
+            case 'neighbour':
+                return $this->world->neighboursOf($position)->random();
+                break;
+            case 'neighbours':
+                return $this->world->neighboursOf($position);
+                
+        }
+    }
+    
+    public function evaluate($position){
+        
+        $target_value = $this->getValueFromTarget();
+        switch($this->operator){
+            case '=':
+                return ($target_value == $this->value);
+                break;
+            case '>':
+                return ($target_value > $this->value);
+                break;
+            case '>=':
+                return ($target_value >= $this->value);
+                break;
+            case '<':
+                return ($target_value < $this->value);
+                break;
+            case '<=':
+                return ($target_value <= $this->value);
+                break;
+        }
+    }
+}
+
+
+
+
+
+

@@ -1,0 +1,21 @@
+
+Cell World:
+The world is made up of a 100x100 grid
+each grid cell is a world position
+each position may contain 1 or 0 entities
+
+an entity has state:{energy,position,state(ALIVE|DEAD|DECAYED)}
+an entity have a function for life
+an entity has 1-many behaviour routines
+given an entity is alive then it will select a behaviour to carry out
+a behaviour is made up of a condition and action to carry out, given the condition is true
+an entity will only carry out 1 behaviour per tick
+
+a tick represents a moment in the world 
+every tick every entity performs its function for life 
+
+Class list:
+- World // x by y coords grid, with refs to whats at a location
+- entity
+- behaviour ?
+- condition ?
