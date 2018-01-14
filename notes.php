@@ -3,7 +3,7 @@
 /*
 
 */
-class entity{
+class Entity{
 
     const ALIVE=1;
     const DEAD=2;
@@ -36,7 +36,7 @@ class entity{
        // $this->chooseBehaviour();
 
     }
-    public function removeEnergy($amount){
+    public function reduceEnergy($amount){
         $this->energy -= $amount;
         $this->checkState();
         if($this->decayed()){
@@ -62,7 +62,17 @@ class entity{
     public function alive(){ return ($this->state==self::ALIVE) }
     public function dead(){ return ($this->state==self::DEAD) }
     public function decayed(){ return ($this->state==self::DECAYED) }
-  public function energy(){ return $this->energy; }
+    public function energy(){ return $this->energy; }
+  	
+  protected function giveEnergy(Entity $recipient){} 
+  protected function takeEnergy(Entity $victim){} 
+  protected function absorbEnergy(){} 
+  protected function moveTo(Position $newPosition){} 
+  
+  protected function split($parts){}
+  protected function birth($perc){}
+  protected function merge(Entity $entity){}
+  	
 }
 
 /*
