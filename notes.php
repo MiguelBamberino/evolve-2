@@ -15,6 +15,11 @@ class entity{
     protected $position;
     protected $lastAction;
     
+  public function __construct(Position $pos ,$energy ){
+  	$this->position = $pos;
+    $this->energy = $energy;
+  }
+  	
     protected $behaviours = array(
         0=>array(
             'conditions'=>array(
@@ -57,6 +62,7 @@ class entity{
     public function alive(){ return ($this->state==self::ALIVE) }
     public function dead(){ return ($this->state==self::DEAD) }
     public function decayed(){ return ($this->state==self::DECAYED) }
+  public function energy(){ return $this->energy; }
 }
 
 /*
@@ -104,6 +110,21 @@ Entity has x case/behaviour slots
 Each behaviour slot contains condition then action 
 
 */
+class Position{
+  protected $x;
+  protected $y;
+  
+  public function __construct($x,$y){
+    $this->x = $x;
+    $this->y = $y;
+  }
+  public function x(){
+  	return $this->x;
+  }
+  public function y(){
+  	return $this->y;
+  }
+}
 class Condition{
     
     protected $world;
@@ -123,9 +144,6 @@ class Condition{
         $this->value = $value;
     }
     
-    public function getValueFromTarget($position){
-        
-    }
     protected function getTargetObject($position){
         switch($this->target){
             case 'self':
@@ -140,9 +158,14 @@ class Condition{
         }
     }
     
-    public function evaluate($position){
+    public function evaluate(Position $position){
         
-        $target_value = $this->getValueFromTarget();
+      $target_object = $this->getTargetObject($position);
+      if(!$target_object){
+		return false;
+      }
+      $target_value = call_user_func(array($target_object, $this->method));
+      
         switch($this->operator){
             case '=':
                 return ($target_value == $this->value);
@@ -162,7 +185,6 @@ class Condition{
         }
     }
 }
-
 
 
 
