@@ -75,6 +75,37 @@ class Entity{
   	
 }
 
+protected function decideBehaviour(){
+
+
+  foreach($this->behaviours as $behaviour){
+    
+    if($behaviour->perform($this)){
+    	return true;
+    }
+  }
+return false;
+}
+
+class Behaviour{
+
+  protected $condition;
+  protected $action;
+  
+  public function __construct(Condition $condition, Action $action ){
+    $this->condition = $condition;
+    $this->action = $action;
+  }
+  
+  public function perform($entity){
+  
+    if($this->condition->evaluate($entity){
+    	retu
+    }
+  }
+
+}
+
 /*
 
 
