@@ -129,9 +129,20 @@ class World{
 }
 
 class God{
-
+	protected $world;
   public function loadWorld(){}
-  public function runWorldTick(){}
+  public function runWorldTick(){
+  	
+    $entities = $this->world->getEntities();
+    foreach($entities as $e){
+      if($e->decayed()){
+        $this->World->removeEntity($e);
+      }else{
+      	$e->live();
+      }
+    }
+    
+  }
 }
        
        
