@@ -120,6 +120,29 @@ Split 2 4
 Birth 10% 20% 30% 40% 
 Merge 
 
+GIVE(from,to){
+	to.increaseEnergy( from.reduceEnergy(1) );
+} 
+TAKE(from,to){
+	to.increaseEnergy( from.reduceEnergy(1) );
+}
+ABSORB(target){
+	target.increaseEnergy(1);
+}
+MOVE(target,world){
+	position = target.decideMoveTo(World);
+  World.moveEntityTo(target);
+}
+SPLIT(target,segmenets){
+	spaces = World.adjacents.unoccupied()
+  if(spaces.count >= (segments-1) ){
+  	
+  }
+}
+BIRTH(target)
+MERGE(from,to)
+
+
 If States:  
 
 Self.energy | =,=>,>,<=,< | integer
@@ -133,7 +156,12 @@ Neighbour.alive | = | true,false
 Neighbour.lastAction 
 
 Neighbours.count 1-8 
-Neighbours.pattern x +  
+Neighbours.pattern x +
+
+Neighbour = Neighbours.getAt(1-8)
+Neighbour = Neighbours.getRandom
+Neighbour = Neigbours.getAdjacent
+Neighbour = Neigbours.getFirst
 
 
 Condition :
@@ -226,7 +254,6 @@ class Condition{
         }
     }
 }
-
 
 
 
