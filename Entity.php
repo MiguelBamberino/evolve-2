@@ -1,3 +1,4 @@
+<?php
 class Entity{
 
     const ALIVE=1;
