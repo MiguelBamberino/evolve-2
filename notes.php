@@ -103,7 +103,7 @@ Entity has x case/behaviour slots
 Each behaviour slot contains condition then action 
 
 condition( based on self/neighbour/neigbours )
-action subject( self/neighbour/condition_target(s)/null )
+action subject( self/neighbour/condition_target(s) )
 action
 
 problems: many condition targets
@@ -162,7 +162,6 @@ class World{
   public function getNeighboursOf(Position $pos){ return $this->entities;}
   
   public function getPositions(){return $this->positions;}
-  public function getAdjacentPositionsOf(Position $pos){}
   public function getAdjacentPositionsOf(Position $pos){}
 }
 
