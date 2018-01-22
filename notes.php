@@ -102,6 +102,36 @@ Multi cases
 Entity has x case/behaviour slots 
 Each behaviour slot contains condition then action 
 
+condition( based on self/neighbour/neigbours )
+action subject( self/neighbour/condition_target(s)/null )
+action
+
+problems: many condition targets
+- many conditions
+- condition on neighbours
+
+-behaviour rule for selecting condition target (random,1,2,3)
+
+keyForConditionTargetSelection(){
+	if(many conditions){
+    	return $this->keyForConditionTargetSelection;
+    }else{
+    	return 1;
+    }
+}
+getConditionTarget(){
+
+	$key = $this->keyForConditionTargetSelection()
+    $condition = $this->conditions->get($key);
+    $targets = $condiotion->getTarget();
+    if($targets is a entity){
+    	return $targets;
+    }else{
+    	return pickEntity($targets);
+    }
+    
+}
+
 */
 class Position{
   protected $x;
@@ -124,10 +154,29 @@ class World{
   $positions;
   $entities;
   
+  public function __construct($width,$height){}
+  
+  public function placeAt(Position $pos, Entity $entity){}
+  
   public function getEntities(){ return $this->entities;}
+  public function getNeighboursOf(Position $pos){ return $this->entities;}
+  
   public function getPositions(){return $this->positions;}
+  public function getAdjacentPositionsOf(Position $pos){}
+  public function getAdjacentPositionsOf(Position $pos){}
 }
 
+       
+class NeigbourCollection{
+  
+  public function getFirst();
+  public function getLast();
+  public function getRandom();
+  public function getAtLocation($loc_ref);
+  public function inPattern($pattern);
+  public function count();
+}
+       
 class God{
 	protected $world;
   public function loadWorld(){}
