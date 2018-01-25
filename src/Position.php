@@ -1,5 +1,5 @@
 <?php
-
+namespace evolve;
 class Position{
 	protected $x;
 	protected $y;
