@@ -1,4 +1,5 @@
 <?php
+namespace evolve;
 class Entity{
 
     const ALIVE=1;
@@ -11,10 +12,17 @@ class Entity{
     protected $position;
     protected $lastAction;
     
-  public function __construct(Position $pos ,$energy ){
-  	$this->position = $pos;
-    $this->energy = $energy;
-  }
+     /**
+     * @test EntityTest::testBasicConstruction
+     * @param Position $pos -> where there entity currently exists in the world
+     * @param int $energy -> the life force within entity
+     * @return integer $energy
+     */
+    public function __construct(Position $pos ,$energy ){
+  	    $this->position = $pos;
+        $this->energy = $energy;
+        $this->checkState();
+    }
   	
     protected $behaviours = array(
         0=>array(
@@ -30,7 +38,7 @@ class Entity{
       
       $this->checkState();
       if($this->alive()){
-      	$this->decideBehaviour();
+      	#$this->decideBehaviour();
       }
     }
   
@@ -45,36 +53,91 @@ class Entity{
       }
     return false;
     }
-  
+    /**
+     * reduce the energy of the entity and check for a state change
+     * @test testEntity::testReduceEnergy
+     * @param int $amount -> energy to add to entity
+     * @return void
+     */
     public function reduceEnergy($amount){
         $this->energy -= $amount;
         $this->checkState();
         if($this->decayed()){
             return $amount - ( self::DECAY_VAL - $this->energy );
         }else{
-            return $amount
+            return $amount;
         }
     }
+    /**
+     * Increase the energy of the entity and check for a state change
+     * @test testEntity::testIncreaseEnergy
+     * @param int $amount -> energy to add to entity
+     * @return void
+     */
     public function increaseEnergy($amount){
         $this->energy += $amount;
         $this->checkState();
     }
+    /**
+     * re-evaluate energy, to see if the entity changes state 
+     * @test testEntity::constructionStateProvider
+     * @return void 
+     */
     private function checkState(){
 
         if( $this->decayed() == false ){   
-            if($this->energy < self::DECAY_VAL){       
+            if($this->energy <= self::DECAY_VAL){       
                 $this->state = self::DECAYED;      
-            }else if($this->energy < 0){       
+            }else if($this->energy <= 0){       
                 $this->state = self::DEAD;        
+            }else{
+                $this->state = self::ALIVE;
             }     
         }
     }
-    public function alive(){ return ($this->state==self::ALIVE) }
-    public function dead(){ return ($this->state==self::DEAD) }
-    public function decayed(){ return ($this->state==self::DECAYED) }
+    /**
+     * is the entity alive 
+     * @test testEntity::constructionStateProvider
+     * @return boolean 
+     */
+    public function alive(){ 
+        return ($this->state==self::ALIVE); 
+    }
+    /**
+     * is the entity dead 
+     * @test testEntity::constructionStateProvider
+     * @return boolean 
+     */
+    public function dead(){ 
+        return ($this->state==self::DEAD); 
+    }
+    /**
+     * has the entity decayed 
+     * @test testEntity::constructionStateProvider
+     * @return boolean 
+     */
+    public function decayed(){ 
+        return ($this->state==self::DECAYED); 
+    }
+    /**
+     * @test EntityTest::testBasicConstruction
+     * @return integer $energy
+     */
     public function energy(){ return $this->energy; }
+    /**
+     * @test EntityTest::testBasicConstruction
+     * @return Position $pos
+     */
     public function position(){ return $this->position; }
-    public function setPosition(Position $pos){ return $this->position=$pos; }
+    /** 
+     * place the entity in a new world position
+     * @test EntityTest::testSetPosition
+     * @param Position $position -> where to place entity 
+     * @return Position $position -> what was set
+     */
+    public function setPosition(Position $pos){ 
+        return $this->position=$pos; 
+    }
     public function behaviours(){ return $this->behaviours; }
   	
 }
