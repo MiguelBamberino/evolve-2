@@ -4,8 +4,6 @@
 
 */
 
-
-
 class Behaviour{
 
   protected $condition;
@@ -133,21 +131,6 @@ getConditionTarget(){
 }
 
 */
-class Position{
-  protected $x;
-  protected $y;
-  
-  public function __construct($x,$y){
-    $this->x = $x;
-    $this->y = $y;
-  }
-  public function x(){
-  	return $this->x;
-  }
-  public function y(){
-  	return $this->y;
-  }
-}
 
 class World{
   
@@ -166,16 +149,31 @@ class World{
 }
 
        
-class NeigbourCollection{
+abstract class Collection{
   
+	public function set($key,$value);
+	public function push($value);
+	public function get($key);
+	public function has($key);
   public function getFirst();
   public function getLast();
   public function getRandom();
-  public function getAtLocation($loc_ref);
-  public function inPattern($pattern);
   public function count();
 }
-       
+class NeigbourCollection{
+	public function getAt($x,$y);
+  public function inPattern($pattern);
+	
+}
+class PositionCollection{
+	public function getOccupants();
+	public function getOccupied();
+	public function getUnoccupied();
+	public function getByCoords($x,$y);
+	public function getAdjacentsOf($x,$y);
+}
+			 
+			 
 class God{
 	protected $world;
   public function loadWorld(){}
