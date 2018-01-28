@@ -29,12 +29,30 @@ class EntityTest extends TestCase
      * can we change the position of an entity
      * @depends testBasicConstruction
      */
-    public function testSetPosition(){
-        $pos = new evolve\Position(45,34);
-        $entity = new evolve\Entity($pos,100);
-        $pos2 = new evolve\Position(5,3);
-        $entity->setPosition($pos2);
-        $this->assertEquals(108,$entity->position()->x()+$entity->position()->y()+$entity->energy());  
+    public function testCanPlaceAt(){
+        $current = new evolve\Position(45,34);
+        $entity = new evolve\Entity($current,100);
+        $target = new evolve\Position(5,3);
+        $entity->placeAt($target);
+        $left = $current->occupied()*1;
+        $hash = $entity->position()->x()+$entity->position()->y() + $left;
+        $this->assertEquals(8,$hash);  
+    }
+    /**
+     * can we change the position of an entity
+     * @depends testBasicConstruction
+     */
+    public function testCantPlaceAt(){
+        $current = new evolve\Position(45,34);
+        $entity = new evolve\Entity($current,100);
+      
+        $target = new evolve\Position(5,3);
+        $target->place(new evolve\Entity($target,100));
+      
+        $entity->placeAt($target);
+        $left = $target->occupied()*1;
+        $hash = $entity->position()->x()+$entity->position()->y() + $left;
+        $this->assertEquals(80,$hash);    
     }
     /**
      * test if we can reduce energy and trigger the correct state change

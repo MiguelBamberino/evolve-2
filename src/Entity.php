@@ -130,13 +130,22 @@ class Entity{
      */
     public function position(){ return $this->position; }
     /** 
-     * place the entity in a new world position
-     * @test EntityTest::testSetPosition
-     * @param Position $position -> where to place entity 
-     * @return Position $position -> what was set
+     * place the entity in a new world position, clearing
+     * old world position
+     * @test EntityTest::testCanPlaceAt
+     * @test EntityTest::testCantPlaceAt
+     * @param Position $target -> where to place entity 
+     * @return boolean success
      */
-    public function setPosition(Position $pos){ 
-        return $this->position=$pos; 
+    public function placeAt(Position $target){
+        
+        if($target->occupied()){
+            return false;
+        }else{
+            $this->position->clear(); // leave current
+            $this->position=$target; // move to target
+        }
+          
     }
     public function behaviours(){ return $this->behaviours; }
   	
