@@ -8,7 +8,7 @@ class PositionCollection extends AbstractCollection{
     /**
      * @param array $positions -> array of evolve\Position ojects
      */
-    public function __construct(array $positions){
+    public function __construct(array $positions = array()){
         foreach($positions as $pos){
             $key = $this->buildKey($pos);
             $this->set( $key ,$pos);
@@ -17,7 +17,7 @@ class PositionCollection extends AbstractCollection{
     /**
      * @param mixed $item -> the position to push on the collection
      */
-    public function push($item){
+    public function push(Position $pos){
         $key = $this->buildKey($pos);
         $this->set( $key ,$pos);
     }
@@ -44,7 +44,7 @@ class PositionCollection extends AbstractCollection{
      * @return evolve\Position|false $position
      */
     public function getByCoords($x,$y){
-        $this->get( $this->buildKeyFromCoord($x,$y) );
+       return $this->get( $this->buildKeyFromCoord($x,$y) );
     }
     /**
      * get a collection of all the adjacent positions to
