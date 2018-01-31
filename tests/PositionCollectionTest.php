@@ -66,6 +66,22 @@ class PositionCollectionTest extends TestCase
         $this->assertEquals(3, $collection->getOccupied()->count() );
     }
     /**
+     * test we can search for unoccupied positions only
+     * @depends testKeyedConstruction
+     */
+    public function testgetUnOccupied(){
+        $collection = new PositionCollection($this->constructionWithEntities());
+        $this->assertEquals(6, $collection->getUnoccupied()->count() );
+    }
+    /**
+     * test we can search for occupants of position collection
+     * @depends testKeyedConstruction
+     */
+    public function testgetOccupants(){
+        $collection = new PositionCollection($this->constructionWithEntities());
+        $this->assertEquals(3, $collection->getOccupants()->count() );
+    }
+    /**
      * 
      */
     public function basicConstructionProvider(){

@@ -107,9 +107,9 @@ class PositionCollection extends AbstractCollection{
         $entities = new EntityCollection();
         foreach($this as $key=>$pos){
             if($pos->occupied()){
-                $positions->push($pos->occupant());
+                $entities->push($pos->occupant());
             }
         }
-        return $positions; 
+        return $entities; 
     }
 }

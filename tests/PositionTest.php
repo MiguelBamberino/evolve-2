@@ -45,4 +45,16 @@ class PositionTest extends TestCase
         
         $this->assertEquals(false,$pos->occupied());
     }
+    /**
+     * test we can retrieve an entity at this position
+     * @depends testBasicConstruction
+     */
+    public function testOccupant(){
+        
+        $pos = new evolve\Position(45,34);
+        $pos->place( new evolve\entity($pos,100) );
+        
+        
+        $this->assertEquals(100,$pos->occupant()->energy());
+    }
 }

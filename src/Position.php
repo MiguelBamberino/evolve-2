@@ -40,10 +40,16 @@ class Position{
     /** 
      * is the position occupied ?
      * @test PositionTest::testClear
-     * return boolean
+     * @return boolean
      */
     public function occupied(){
         return !empty($this->occupant);
+    }
+    /**
+     * @return Entity $occupant
+     */
+    public function occupant(){
+        return $this->occupant;
     }
     /**
      * remove entity reference fom the position, emptying it
