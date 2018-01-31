@@ -1,7 +1,7 @@
 <?php
 
 namespace evolve\Collections;
-abstract class AbstractCollection extends arrayIterator{
+abstract class AbstractCollection extends \arrayIterator{
     
     /** 
      * @param string|int $key -> the look up ref in the collection
@@ -20,7 +20,7 @@ abstract class AbstractCollection extends arrayIterator{
      * @param string|int $key -> the key to look up
      * @return mixed|false value or false if not set
      */
-    public function get($key);
+    public function get($key){
         if($this->has($key)) {
             return $this->offsetGet($key);
         } else {
@@ -57,8 +57,8 @@ abstract class AbstractCollection extends arrayIterator{
      * @return mixed $item -> return a random item in collection
      */
     public function getRandom(){
-        $pointer = rand(0,$this->count());
-        $i=0;
+        $pointer = rand(1,$this->count());
+        $i=1;
         foreach($this as $item){
             if($pointer == $i){
                 return $item;

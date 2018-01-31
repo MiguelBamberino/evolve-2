@@ -101,9 +101,15 @@ class PositionCollection extends AbstractCollection{
         return $positions;
     }
     /**
-     *
+     * @return EntityCollection $collections -> of entities that occupy the positions
      */
     public function getOccupants(){
-        
+        $entities = new EntityCollection();
+        foreach($this as $key=>$pos){
+            if($pos->occupied()){
+                $positions->push($pos->occupant());
+            }
+        }
+        return $positions; 
     }
 }
