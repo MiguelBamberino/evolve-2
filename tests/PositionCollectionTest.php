@@ -80,6 +80,15 @@ class PositionCollectionTest extends TestCase
     public function testgetOccupants(){
         $collection = new PositionCollection($this->constructionWithEntities());
         $this->assertEquals(3, $collection->getOccupants()->count() );
+    }    
+    /**
+     * test we can search for occupants of position collection
+     * @depends testKeyedConstruction
+     * @dataProvider getOccupantsAdjacentToProvider
+     */
+    public function testgetOccupantsAdjacentTo(Position $pos, $expected_neighbours){
+        $collection = new PositionCollection($this->constructionWithEntities());
+        $this->assertEquals($expected_neighbours, $collection->getOccupantsAdjacentTo($pos)->count() );
     }
     /**
      * 
@@ -107,8 +116,23 @@ class PositionCollectionTest extends TestCase
         $data['bl']->place(new Entity($data['bl'],100));
         return $data;
     }
+    public function getOccupantsAdjacentToProvider(){
+        return array(
+            array(new Position(1,1),0),
+            
+            array(new Position(5,3),0),
+            array(new Position(5,5),1),
+            array(new Position(3,5),2),
+            array(new Position(3,3),1),
+            array(new Position(4,4),3),
+            array(new Position(4,3),2),
+            array(new Position(2,3),2),
+        );
+    }
     public function GetAdjacentsOfProvider(){
         return array(
+            array(new Position(1,1),0),
+            
             array(new Position(2,6),1),
             array(new Position(2,5),2),
             array(new Position(2,4),3),

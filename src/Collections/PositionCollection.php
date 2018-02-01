@@ -101,7 +101,7 @@ class PositionCollection extends AbstractCollection{
         return $positions;
     }
     /**
-     * @return EntityCollection $collections -> of entities that occupy the positions
+     * @return EntityCollection $collection -> of entities that occupy the positions
      */
     public function getOccupants(){
         $entities = new EntityCollection();
@@ -111,5 +111,11 @@ class PositionCollection extends AbstractCollection{
             }
         }
         return $entities; 
+    }
+    /**
+     * @return EntityCollection $collection -> of entities that occupy the positions
+     */
+    public function getOccupantsAdjacentTo(Position $pos){
+        return $this->getAdjacentsOf($pos)->getOccupants();
     }
 }
