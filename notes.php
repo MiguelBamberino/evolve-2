@@ -134,11 +134,16 @@ getConditionTarget(){
 
 class World{
   
+	$name;
+	$width;
+	$height;
+	$ticks;
   $positions;
   $entities;
   
-  public function __construct($width,$height){}
+  public function __construct($name,$width,$height,$ticks,$entities){}
   
+	public function tickOver(){}
   public function placeAt(Position $pos, Entity $entity){}
   
   public function getEntities(){ return $this->entities;}
