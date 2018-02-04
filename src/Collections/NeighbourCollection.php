@@ -29,7 +29,42 @@ class NeighbourCollection extends AbstractEntityCollection{
                 break;
         }
     }
-    private function old_inXpattern(){
+    private function inXpattern(){
+        $modifiers= array(
+            array(-1,1), // top left
+            array(1,1), // top right
+            array(-1,-1), // bottom left
+            array(1,-1), // bottom right
+        );
+        
+        return $this->__checkAdjacentPatternWithModifierMatrix($modifiers);
+    }
+    private function inCrosspattern(){
+        $modifiers= array(
+            array(0,1), // top centre
+            array(-1,0), // centre left
+            array(1,0), // centre right
+            array(0,-1), // bottom centre
+        );
+        
+        return $this->__checkAdjacentPatternWithModifierMatrix($modifiers);
+    }
+    private function __checkAdjacentPatternWithModifierMatrix($modifiers){
+        
+        if($this->count()== count($modifiers) ){
+            
+            foreach($modifiers as $mod){
+                $key = $this->buildKeyFromCoord($this->centre->x()+$mod[0],$this->centre->y()+$mod[1]);
+                if( !$this->has($key) ){
+                    return false;
+                }
+            }
+            return true;
+        }else{
+           return false;
+        }
+    }
+      private function old_inXpattern(){
         $in = false;
         if($this->count()==4){
             
@@ -52,20 +87,5 @@ class NeighbourCollection extends AbstractEntityCollection{
         }
         return $in;
     }
-    private function __checkAdjacentPatternWithModifierMatrix($modifiers){
-        
-        if($this->count()== count($modifiers) ){
-            
-            foreach($modifiers as $mod){
-                $key = $this->buildKeyFromCoord($this->centre->x()+$mod[0],$this->centre->y()+$mod[1]);
-                if( !$this->has($key) ){
-                    return false;
-                }
-            }
-            return true;
-        }else{
-           return false;
-        }
-    }
-    
+  
 }
