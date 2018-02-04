@@ -139,7 +139,7 @@ class Entity{
      */
     public function placeAt(Position $target){
         
-        if($target->occupied()){
+        if($target->place($this) == false){
             return false;
         }else{
             $this->position->clear(); // leave current

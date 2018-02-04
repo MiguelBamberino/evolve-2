@@ -10,6 +10,12 @@ class World{
     $positions;
     $entities;
 
+    /**
+     * BUILD IT !
+     * @param string $name -> name of your world
+     * @param int $width -> how many positions wide the world is
+     * @param int $height -> how many positions heigh the world is
+     */
     public function __construct($name,$width,$height,$ticks,$entities){
         $this->name = $name;
         $this->width = $width;

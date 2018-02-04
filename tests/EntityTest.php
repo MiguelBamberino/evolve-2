@@ -30,13 +30,17 @@ class EntityTest extends TestCase
      * @depends testBasicConstruction
      */
     public function testCanPlaceAt(){
+      
         $current = new evolve\Position(45,34);
         $entity = new evolve\Entity($current,100);
+        $current->place($entity);
+      
         $target = new evolve\Position(5,3);
         $entity->placeAt($target);
-        $left = $current->occupied()*1;
-        $hash = $entity->position()->x()+$entity->position()->y() + $left;
-        $this->assertEquals(8,$hash);  
+        $left = $current->occupied()*1; // exp 0
+        $arrived = $target->occupied()*1; // exp 1
+        $hash = $entity->position()->x()+$entity->position()->y() + $left + $arrived;
+        $this->assertEquals(9,$hash);  
     }
     /**
      * can we change the position of an entity
@@ -45,14 +49,17 @@ class EntityTest extends TestCase
     public function testCantPlaceAt(){
         $current = new evolve\Position(45,34);
         $entity = new evolve\Entity($current,100);
+        $current->place($entity);
       
         $target = new evolve\Position(5,3);
-        $target->place(new evolve\Entity($target,100));
+        $entity2 = new evolve\Entity($target,100);
+        $target->place($entity2);
       
         $entity->placeAt($target);
-        $left = $target->occupied()*1;
-        $hash = $entity->position()->x()+$entity->position()->y() + $left;
-        $this->assertEquals(80,$hash);    
+        $left = $current->occupied()*1; // exp 1
+        $arrived = $target->occupied()*1; // epx 1
+        $hash = $entity->position()->x()+$entity->position()->y() + $left+$arrived;
+        $this->assertEquals(81,$hash);    
     }
     /**
      * test if we can reduce energy and trigger the correct state change
