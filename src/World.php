@@ -1,5 +1,7 @@
 <?php
 namespace evolve;
+use evolve\Collections\PositionCollection;
+use evolve\Collections\EntityCollection;
 
 class World{
     
@@ -22,13 +24,29 @@ class World{
         $this->height = $height;
         $this->ticks = $ticks;
         $this->buildPositions();
+        // set up the positions by placing the entity
         foreach($entities as $e){
-            $this->placeAt($e->position(),$e);
+            $e->placeAt($e,$e->position());
         }
     }
-
+    /**
+     * build the world position collection from width and height info
+     */
+    private function buildPositions(){
+        $this->positions = new PositionCollection();
+        for($y=0;$y<=$this->height;$y++){
+            for($x=0;$x<=$this->width;$x++){
+                $this->positions->push( new Position($x,$y) );
+            }
+        }
+      
+    }
+    public function placeAt(Position $pos, Entity $entity){
+        $pos = $this->positions->getByCoords($pos->x(),$pos->y());
+        $pos->placeAt($entity->);
+    }
     public function tickOver(){}
-    public function placeAt(Position $pos, Entity $entity){}
+    
   
   public function getEntities(){ return $this->entities;}
   public function getNeighboursOf(Position $pos){ return $this->entities;}
