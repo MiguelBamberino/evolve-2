@@ -34,11 +34,11 @@ class Entity{
     
     );
 
-    public function live(){
+    public function act(){
       
       $this->checkState();
       if($this->alive()){
-      	#$this->decideBehaviour();
+          $this->decideBehaviour();
       }
     }
   
@@ -89,7 +89,9 @@ class Entity{
             if($this->energy <= self::DECAY_VAL){       
                 $this->state = self::DECAYED;      
             }else if($this->energy <= 0){       
-                $this->state = self::DEAD;        
+                $this->state = self::DEAD;
+                $this->position->clear(); // leave current
+                $this->position=null; // move to target
             }else{
                 $this->state = self::ALIVE;
             }     

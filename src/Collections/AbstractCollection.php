@@ -35,6 +35,18 @@ abstract class AbstractCollection extends \arrayIterator{
         return $this->offsetExists($key);
     }
     /**
+     * @param string|int $key -> the key to delete
+     * @return boolean -> was it deleted
+     */
+    public function remove($key){
+        if($this->has($key)){
+            $this->offsetUnset($key);
+            return true;
+        }else{
+            return false;
+        }
+    }
+    /**
      * @return mixed -> the first item in the collection
      */
     public function getFirst(){

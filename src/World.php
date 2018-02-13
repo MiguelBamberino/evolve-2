@@ -26,7 +26,9 @@ class World{
         $this->buildPositions();
         // set up the positions by placing the entity
         foreach($entities as $e){
-            $e->placeAt($e,$e->position());
+            $cPos = $e->position();
+            $newPos = $this->positions->getByCoords($cPos->x(),$cPos->y());
+            $e->placeAt($newPos);
         }
     }
     /**
@@ -41,11 +43,24 @@ class World{
         }
       
     }
-    public function placeAt(Position $pos, Entity $entity){
-        $pos = $this->positions->getByCoords($pos->x(),$pos->y());
-        $pos->placeAt($entity->);
+    /**
+     * carry out all events of the world for one tick
+     * progressing world time by 1 tick
+     */
+    public function tickOver(){
+        
+        foreach($this-entities as $key => $entity){
+            
+            if( $entity->decayed() ){
+                $this->remove($key);
+            }else{
+                $entity->act();
+            }
+            
+        }
+        $this->$ticks++;
+        return $ticks;
     }
-    public function tickOver(){}
     
   
   public function getEntities(){ return $this->entities;}
@@ -53,5 +68,10 @@ class World{
   
   public function getPositions(){return $this->positions;}
   public function getAdjacentPositionsOf(Position $pos){}
+  
+      public function placeAt(Position $pos, Entity $entity){
+        $pos = $this->positions->getByCoords($pos->x(),$pos->y());
+        $pos->placeAt($entity->);
+    }
 
 }

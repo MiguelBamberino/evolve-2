@@ -6,6 +6,8 @@ use evolve\Position;
 class PositionCollection extends AbstractCollection{
     
     /**
+     * @test testBasicConstruction
+     * @test testKeyedConstruction
      * @param array $positions -> array of evolve\Position ojects
      */
     public function __construct(array $positions = array()){
@@ -15,6 +17,7 @@ class PositionCollection extends AbstractCollection{
         }
     }
     /**
+     * @test testPush
      * @param mixed $item -> the position to push on the collection
      */
     public function push(Position $pos){
@@ -39,6 +42,8 @@ class PositionCollection extends AbstractCollection{
         return $x ."-".$y;
     }
     /**
+     * @test testgetByCoordsExist
+     * @test testgetByCoordsNotExist
      * @param int $x 
      * @param int $y
      * @return evolve\Position|false $position
@@ -49,6 +54,7 @@ class PositionCollection extends AbstractCollection{
     /**
      * get a collection of all the adjacent positions to
      * the one passed in
+     * @test testGetAdjacentsOf
      * @param Position $pos -> position to use as centre
      * @return PositionCollection $positions
      */
@@ -75,6 +81,7 @@ class PositionCollection extends AbstractCollection{
     /**
      * Get a sub collection of the positions that
      * are occupied.
+     * @test testgetOccupied
      * @return PositionCollection $positions
      */
     public function getOccupied(){
@@ -89,6 +96,7 @@ class PositionCollection extends AbstractCollection{
     /**
      * Get a sub collection of the positions that
      * are not occupied.
+     * @test testgetUnOccupied
      * @return PositionCollection $positions
      */
     public function getUnoccupied(){
@@ -101,6 +109,7 @@ class PositionCollection extends AbstractCollection{
         return $positions;
     }
     /**
+     * @test testgetOccupants
      * @return EntityCollection $collection -> of entities that occupy the positions
      */
     public function getOccupants(){
@@ -113,6 +122,7 @@ class PositionCollection extends AbstractCollection{
         return $entities; 
     }
     /**
+     * @test testgetOccupantsAdjacentTo
      * @return EntityCollection $collection -> of entities that occupy the positions
      */
     public function getOccupantsAdjacentTo(Position $pos){
