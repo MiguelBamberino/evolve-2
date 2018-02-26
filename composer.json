@@ -6,5 +6,8 @@
         "psr-4" : {
             "evolve\\" : "src/"
         }
+    },
+    "require": {
+        "php-school/cli-menu": "2.1.0"
     }
 }
