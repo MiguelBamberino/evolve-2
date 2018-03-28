@@ -54,11 +54,18 @@ Per world:
 	maybe an interface for reading and writing so can change storage solution 
 	interface :
 	
-	getWorld($world_ref) //w entities
+	getWorld($world_ref) 
+		// retrieve a world object without entities
 	
 	getAllWorlds()
+	 // retrieve all world objects, without entities.
 	
 	updateWorld($world)
+	 // modify general world info
+	 
+	 deleteWorld($world_ref)
+	  // remove a world and all its entities
+	
 		
 	commitTick($world) 
 		// excluding entities that have decayed
@@ -67,6 +74,7 @@ Per world:
 		// add New Entities that spawned this tick
 		
 	loadWorld($world_ref)
+	  // get a world and populate it ready to run the next tick
 		$world = getWorld($world_ref)
 		$tick_states = getTickStates($world->current_tick)
 		$entities = build
@@ -74,6 +82,15 @@ Per world:
 	LoadWorldFromTick($world_ref,$tick)
 
 
+project concepts :
+
+- data storage (repository, data adapters, sql,json,files,mongoDB)
+- world (world,entities,tick_states, behaviours, conditions, position)
+- actors (god,admin,viewer)
+- renderer
+- cli 
+- collections
+- helpers/tooling
 */
 
 class Behaviour{
