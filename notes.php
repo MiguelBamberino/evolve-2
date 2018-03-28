@@ -39,13 +39,41 @@ Per world:
 	idea 2 normalised (mongoDB,MySQL,memcache,filesystem):
 	* worlds.json -> world:{name:'terra',ticks:34,width:100:height:100}
   * entities.json -> entity:{geneology:'dFaGgSe',x:23,y:56,energy:100,world_id:1,parents:45}	
-	* ticks.json -> tick:{tick,world_id,entity_id,x,y,energy}
+	* ticks.json -> tick:{tick,world_id,entity_id,x:,y,energy}
 	
 	+ normalised so cross tick queries are easy
 	+ more flexibility for data retrieval 
 	- bit more complicated to build
 	- bit more complicated to construct data
 	
+	- world
+			- tick_entity_state
+			- entities
+				- tick_entity_state
+	
+	maybe an interface for reading and writing so can change storage solution 
+	interface :
+	
+	getWorld($world_ref) //w entities
+	
+	getAllWorlds()
+	
+	updateWorld($world)
+		
+	commitTick($world) 
+		// excluding entities that have decayed
+		// if tick state already on store exists then reject
+		// create new tick states
+		// add New Entities that spawned this tick
+		
+	loadWorld($world_ref)
+		$world = getWorld($world_ref)
+		$tick_states = getTickStates($world->current_tick)
+		$entities = build
+		
+	LoadWorldFromTick($world_ref,$tick)
+
+
 */
 
 class Behaviour{
