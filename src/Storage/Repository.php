@@ -37,6 +37,23 @@ class Repository{
         return $collection;
     }
     ######## WRITERS ###############################
+    public function createWorld($world){
+        
+        if($this->worldExists($world->name())){
+            throw new \Exception("World : ".$world->name()." already exists.");
+        }else{
+            mkdir($this->root_path."/".$world->name());
+            mkdir($this->root_path."/".$world->name()."/ticks");
+            $data = array();
+            $data['name'] = $world->name();
+            $data['width'] = $world->width();
+            $data['height'] = $world->height();
+            $data['current_tick'] = $world->current_tick();
+
+            var_dump(json_encode($data));
+            file_put_contents($this->root_path. '/'.$world->name().'/world.json',json_encode($data));
+        }
+    }
     public function updateWorld($world){
         
     }

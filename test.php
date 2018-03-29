@@ -5,8 +5,13 @@ $pos = new evolve\Position(4,34);
 
 $repo = new evolve\Storage\Repository('./tests/data/state0/worlds/');
 
-$world = new evolve\World('terra',10,10,1);
+$world = new evolve\World('alpharia',10,10,1);
 
+$repo->createWorld($world);
+
+$ret = $repo->getWorld('alpharia');
+var_dump($ret->name());
+exit;
 var_dump($world->name());
 $data = array();
 $data['name'] = $world->name();
