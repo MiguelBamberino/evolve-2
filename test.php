@@ -1,12 +1,24 @@
 <?php
-
 include __DIR__."/vendor/autoload.php";
-$pos = new evolve\Position(4,34);
+
+use evolve\Position;
+use evolve\Entity;
+use evolve\Collections\Collection;
+use evolve\Collections\EntityCollection;
+
 
 $repo = new evolve\Storage\Repository('./tests/data/state0/worlds/');
 
-$world = new evolve\World('alpharia',10,10,1);
+$pos = new Position(2,3);
+$pos2 = new Position(3,3);
+$entities = new EntityCollection();
+$entities->push( new Entity($pos,100) );
+$entities->push( new Entity($pos2,100) );
 
+$world = new evolve\World('alpharia',10,10,1,$entities);
+
+var_dump($world->getPositions()->count());
+exit;
 $repo->createWorld($world);
 
 $ret = $repo->getWorld('alpharia');

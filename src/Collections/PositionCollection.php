@@ -1,7 +1,7 @@
 <?php
 
 namespace evolve\Collections;
-use evolve\Position;
+use evolve\World\Position;
 
 class PositionCollection extends AbstractCollection{
     

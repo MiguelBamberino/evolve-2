@@ -1,7 +1,7 @@
 <?php
 use PHPUnit\Framework\TestCase;
-use evolve\Position;
-use evolve\Entity;
+use evolve\World\Position;
+use evolve\World\Entity;
 use evolve\Collections\PositionCollection;
 
 class PositionCollectionTest extends TestCase

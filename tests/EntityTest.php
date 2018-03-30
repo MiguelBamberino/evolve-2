@@ -1,5 +1,7 @@
 <?php
 use PHPUnit\Framework\TestCase;
+use evolve\World\Position;
+use evolve\World\Entity;
 
 class EntityTest extends TestCase
 {
@@ -8,8 +10,8 @@ class EntityTest extends TestCase
      */
     public function testBasicConstruction(){
 
-        $pos = new evolve\Position(45,34);
-        $entity = new evolve\Entity($pos,100);
+        $pos =  new Position(45,34);
+        $entity =  new Entity($pos,100);
         $this->assertEquals(179,$entity->position()->x()+$entity->position()->y()+$entity->energy());
 
     }
@@ -20,8 +22,8 @@ class EntityTest extends TestCase
      */
     public function testConstructionState($x,$y,$energy,$expected){
 
-        $pos = new evolve\Position($x,$y);
-        $entity = new evolve\Entity($pos,$energy);
+        $pos =  new Position($x,$y);
+        $entity =  new Entity($pos,$energy);
         $this->assertEquals($expected[1],$entity->$expected[0]());
 
     }
@@ -30,12 +32,12 @@ class EntityTest extends TestCase
      * @depends testBasicConstruction
      */
     public function testCanPlaceAt(){
-      
-        $current = new evolve\Position(45,34);
-        $entity = new evolve\Entity($current,100);
+        
+        $current =  new Position(45,34);
+        $entity =  new Entity($current,100);
         $current->place($entity);
       
-        $target = new evolve\Position(5,3);
+        $target =  new Position(5,3);
         $entity->placeAt($target);
         $left = $current->occupied()*1; // exp 0
         $arrived = $target->occupied()*1; // exp 1
@@ -47,12 +49,13 @@ class EntityTest extends TestCase
      * @depends testBasicConstruction
      */
     public function testCantPlaceAt(){
-        $current = new evolve\Position(45,34);
-        $entity = new evolve\Entity($current,100);
+      
+        $current =  new Position(45,34);
+        $entity =  new Entity($current,100);
         $current->place($entity);
       
-        $target = new evolve\Position(5,3);
-        $entity2 = new evolve\Entity($target,100);
+        $target =  new Position(5,3);
+        $entity2 =  new Entity($target,100);
         $target->place($entity2);
       
         $entity->placeAt($target);
@@ -67,10 +70,9 @@ class EntityTest extends TestCase
      * @dataProvider constructionStateProvider
      */
     public function testReduceEnergy($x,$y,$energy,$expected){
-
-        $pos = new evolve\Position($x,$y);
+        $pos =  new Position($x,$y);
         $energy = $energy+1; // increase energy, to set initial state
-        $entity = new evolve\Entity($pos,$energy);
+        $entity =  new Entity($pos,$energy);
         $entity->reduceEnergy(1);
         $this->assertEquals($expected[1],$entity->$expected[0]());
 
@@ -82,9 +84,9 @@ class EntityTest extends TestCase
      */
     public function testIncreaseEnergy($x,$y,$energy,$expected){
 
-        $pos = new evolve\Position($x,$y);
+        $pos =  new Position($x,$y);
         $energy = $energy-1; // reduce energy, to set initial state
-        $entity = new evolve\Entity($pos,$energy);
+        $entity =  new Entity($pos,$energy);
         $entity->increaseEnergy(1);
         $this->assertEquals($expected[1],$entity->$expected[0]());
 

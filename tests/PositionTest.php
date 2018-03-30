@@ -1,5 +1,7 @@
 <?php
 use PHPUnit\Framework\TestCase;
+use  evolve\World\Position;
+use  evolve\World\Entity;
 
 class PositionTest extends TestCase
 {
@@ -8,7 +10,7 @@ class PositionTest extends TestCase
      */
     public function testBasicConstruction(){
 
-        $pos = new evolve\Position(45,34);
+        $pos = new  Position(45,34);
         $this->assertEquals(79,$pos->x()+$pos->y());
     } 
     /**
@@ -17,8 +19,8 @@ class PositionTest extends TestCase
      */
     public function testCanPlace(){
         
-        $pos = new evolve\Position(45,34);
-        $placed = $pos->place( new evolve\entity($pos,100) );
+        $pos = new  Position(45,34);
+        $placed = $pos->place( new  entity($pos,100) );
         $this->assertEquals(true,$placed);
     }
     /**
@@ -27,10 +29,10 @@ class PositionTest extends TestCase
      */
     public function testCantPlace(){
         
-        $pos = new evolve\Position(45,34);
-        $pos = new evolve\Position(46,34);
-        $pos->place( new evolve\entity($pos,100) );
-        $placed = $pos->place( new evolve\entity($pos,100) );
+        $pos = new  Position(45,34);
+        $pos = new  Position(46,34);
+        $pos->place( new  entity($pos,100) );
+        $placed = $pos->place( new  entity($pos,100) );
         $this->assertEquals(false,$placed);
     }
     /**
@@ -39,8 +41,8 @@ class PositionTest extends TestCase
      */
     public function testClearPlace(){
         
-        $pos = new evolve\Position(45,34);
-        $pos->place( new evolve\entity($pos,100) );
+        $pos = new  Position(45,34);
+        $pos->place( new  entity($pos,100) );
         $pos->clear();
         
         $this->assertEquals(false,$pos->occupied());
@@ -51,8 +53,8 @@ class PositionTest extends TestCase
      */
     public function testOccupant(){
         
-        $pos = new evolve\Position(45,34);
-        $pos->place( new evolve\entity($pos,100) );
+        $pos = new  Position(45,34);
+        $pos->place( new  entity($pos,100) );
         
         
         $this->assertEquals(100,$pos->occupant()->energy());
