@@ -1,24 +1,47 @@
 <?php
 include __DIR__."/vendor/autoload.php";
 
-use evolve\Position;
-use evolve\Entity;
+use evolve\World\World;
+use evolve\World\Position;
+use evolve\World\Entity;
+use evolve\World\Condition;
 use evolve\Collections\Collection;
 use evolve\Collections\EntityCollection;
+
+$cond = new Condition(Condition::SELF,"decayed",'=',  true);
 
 
 $repo = new evolve\Storage\Repository('./tests/data/state0/worlds/');
 
 $pos = new Position(2,3);
-$pos2 = new Position(3,3);
+$pos2 = new Position(4,6);
 $entities = new EntityCollection();
-$entities->push( new Entity($pos,100) );
-$entities->push( new Entity($pos2,100) );
+$entities->push( new Entity($pos,23) );
+$entities->push( new Entity($pos2,33) );
 
-$world = new evolve\World('alpharia',10,10,1,$entities);
+$world = new World('alpharia',10,10,1,$entities);
 
-var_dump($world->getPositions()->count());
+renderWorld($world);
+
+$e = $world->getEntities()->getFirst();
+$e->reduceEnergy(200);
+var_dump( $cond->evaluate( $e , $world ) );
+
+$world->tickover();
+renderWorld($world);
+
 exit;
+
+
+
+
+
+foreach($world->getPositions() as $pos){
+    var_dump($pos->x().','.$pos->y());
+}
+
+
+
 $repo->createWorld($world);
 
 $ret = $repo->getWorld('alpharia');
@@ -43,3 +66,28 @@ foreach($worlds as $w){
   var_dump($w->width().'x'.$w->height());
 }
 #var_dump($ret);
+
+function renderWorld($world){
+  
+  print "\n\n";
+  print "Tick:".$world->current_tick();
+  print "\n\n";
+
+  $cy = 0;
+
+  foreach($world->getPositions() as $pos){
+
+    if($pos->y() != $cy){
+      print "\n";
+    }
+
+      if($pos->occupied()){
+        print "#";
+      }else{
+        print ".";
+      }
+    $cy = $pos->y();
+  }
+  print "\n\n";
+
+}

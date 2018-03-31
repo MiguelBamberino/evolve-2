@@ -1,6 +1,15 @@
 <?php
 
 /*
+
+concepts: 
+world
+entities
+time
+
+who has agency ?
+
+
 data storage :
 
 Per Tick:
@@ -196,6 +205,23 @@ action
 problems: many condition targets
 - many conditions
 - condition on neighbours
+
+class behaviour{
+	$conditions; // collection of condition( based on self/neighbour/neigbours )
+	$action_target_ref; // subject( self/neighbour/condition_target(s) )
+	$action; // 
+	
+	function perform($entity,$world);
+	{
+		// if conditions met else return false
+			// get action target
+			// if action target else return false 
+	}
+	function getActionTarget($entity,$world);
+	function 
+	
+}
+
 
 -behaviour rule for selecting condition target (random,1,2,3)
 
