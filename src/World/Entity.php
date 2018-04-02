@@ -149,6 +149,7 @@ class Entity{
         }else{
             $this->position->clear(); // leave current
             $this->position=$target; // move to target
+            return true;
         }
           
     }

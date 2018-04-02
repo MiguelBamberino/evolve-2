@@ -23,6 +23,36 @@ class MoveAction implements Action{
                     $pos = $e->position();
                     return $w->getPositions()->getByCoords($pos->x()+1,$pos->y()+1);
                 break;
+            
+                 case 'CL':
+                    $pos = $e->position();
+                    return $w->getPositions()->getByCoords($pos->x()-1,$pos->y());
+                break;
+                 case 'CR':
+                    $pos = $e->position();
+                    return $w->getPositions()->getByCoords($pos->x()+1,$pos->y());
+                break;
+            
+                 case 'BL':
+                    $pos = $e->position();
+                    return $w->getPositions()->getByCoords($pos->x()-1,$pos->y()-1);
+                break;
+                 case 'BC':
+                    $pos = $e->position();
+                    return $w->getPositions()->getByCoords($pos->x(),$pos->y()-1);
+                break;
+                 case 'BR':
+                    $pos = $e->position();
+                    return $w->getPositions()->getByCoords($pos->x()+1,$pos->y()-1);
+                break;
+            
+                 case 'RA': # random
+                    $pos = $e->position();
+                    $xo = rand(0,2)-1;
+                    $yo = rand(0,2)-1;
+                    return $w->getPositions()->getByCoords($pos->x()+$xo,$pos->y()+$yo);
+                break;
+            
         }
     }
   

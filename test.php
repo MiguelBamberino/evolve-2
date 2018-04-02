@@ -9,33 +9,43 @@ use evolve\World\Condition;
 use evolve\Collections\Collection;
 use evolve\Collections\EntityCollection;
 
-$cond = new Condition(Condition::SELF,"decayed",'=',  true);
-$moveA = new MoveAction('TL');
-
 $repo = new evolve\Storage\Repository('./tests/data/state0/worlds/');
 
-$pos = new Position(2,3);
-$pos2 = new Position(4,6);
-$entities = new EntityCollection();
-$entities->push( new Entity($pos,23) );
-$entities->push( new Entity($pos2,33) );
 
-$world = new World('alpharia',10,10,1,$entities);
 
-renderWorld($world);
-######### EVENTS ##############
-$e = $world->getEntities()->getFirst();
-#$e->reduceEnergy(200);
-#$moveA->perform($e,$world,$cond);
-var_dump( $cond->evaluate( $e , $world ) );
-
-######### RE-RENDER ##############
-$world->tickover();
-renderWorld($world);
+runWorld(4);
 
 exit;
 
+function runWorld($ticks){
+  $pos = new Position(2,3);
+  $pos2 = new Position(4,6);
+  $entities = new EntityCollection();
+  $entities->push( new Entity($pos,23) );
+  $entities->push( new Entity($pos2,33) );
 
+  $world = new World('alpharia',10,10,1,$entities);
+
+    renderWorld($world);
+    testTickover($world);
+  }
+  
+}
+
+function testTickover($world){
+  
+  $cond = new Condition(Condition::SELF,"decayed",'=',  true);
+  $moveA = new MoveAction('RA');
+  foreach($world->getEntities() as $e){
+    $ret = $moveA->perform($e,$world,$cond);
+  }
+  #$e->reduceEnergy(200);
+  #var_dump($ret);
+  #var_dump( $cond->evaluate( $e , $world ) );
+  $world->tickover();
+  sleep(1);
+  
+}
 
 
 
@@ -77,7 +87,7 @@ function printAxis($number){
   }
 }
 function renderWorld($world){
-  
+  system('clear');
   print "\n\n";
   print "Tick:".$world->current_tick();
   print "Height:".$world->height();
