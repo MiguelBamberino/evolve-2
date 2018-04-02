@@ -2,6 +2,7 @@
 include __DIR__."/vendor/autoload.php";
 
 use evolve\World\World;
+use evolve\World\MoveAction;
 use evolve\World\Position;
 use evolve\World\Entity;
 use evolve\World\Condition;
@@ -9,7 +10,7 @@ use evolve\Collections\Collection;
 use evolve\Collections\EntityCollection;
 
 $cond = new Condition(Condition::SELF,"decayed",'=',  true);
-
+$moveA = new MoveAction('TL');
 
 $repo = new evolve\Storage\Repository('./tests/data/state0/worlds/');
 
@@ -22,11 +23,13 @@ $entities->push( new Entity($pos2,33) );
 $world = new World('alpharia',10,10,1,$entities);
 
 renderWorld($world);
-
+######### EVENTS ##############
 $e = $world->getEntities()->getFirst();
-$e->reduceEnergy(200);
+#$e->reduceEnergy(200);
+#$moveA->perform($e,$world,$cond);
 var_dump( $cond->evaluate( $e , $world ) );
 
+######### RE-RENDER ##############
 $world->tickover();
 renderWorld($world);
 
@@ -66,28 +69,55 @@ foreach($worlds as $w){
   var_dump($w->width().'x'.$w->height());
 }
 #var_dump($ret);
-
+function printAxis($number){
+  if($number>9){
+    print $number." |";
+  }else{
+    print " ".$number." |";
+  }
+}
 function renderWorld($world){
   
   print "\n\n";
   print "Tick:".$world->current_tick();
+  print "Height:".$world->height();
+  print "Width:".$world->width();
   print "\n\n";
 
-  $cy = 0;
-
-  foreach($world->getPositions() as $pos){
-
-    if($pos->y() != $cy){
-      print "\n";
-    }
-
-      if($pos->occupied()){
-        print "#";
-      }else{
-        print ".";
-      }
-    $cy = $pos->y();
+  $height = $world->height();
+  $width = $world->width();
+  $grid = $world->getPositions();
+  for($h = $height; $h>0;$h--){
+     printAxis($h);
+     for($w=1;$w<=$width;$w++){
+       $pos = $grid->getByCoords($w,$h);
+       if($pos instanceof Position){
+         
+       }else{
+         var_dump($w.",".$h);
+         var_dump($pos);
+       }
+       if($pos->occupied()){
+         print "#";
+       }else{
+         print " ";
+       }
+       print"|";
+     }
+     print "\n";
+     print "---|";
+     for($w=1;$w<=$width;$w++){
+        print "--";  
+     }
+     print "\n";
+    
   }
-  print "\n\n";
+  print" 0 |";
+  for($w=1;$w<=$width;$w++){
+     print($w."|");
+    
+  }
+  print "\n";
+  
 
 }

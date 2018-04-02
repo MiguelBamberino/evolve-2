@@ -1,7 +1,8 @@
 <?php
 namespace evolve\World;
 
-interface class Action {
+interface  Action {
   
-  function perform(Entity $e, World $w);
+  function __construct($how=null);
+  function perform(Entity $e, World $w, Condition $c);
 }

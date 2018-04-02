@@ -41,8 +41,8 @@ class World{
      */
     private function buildPositions(){
         $this->positions = new PositionCollection();
-        for($y=0;$y<$this->height;$y++){
-            for($x=0;$x<$this->width;$x++){
+        for($y=1;$y<=$this->height;$y++){
+            for($x=1;$x<=$this->width;$x++){
                 $this->positions->push( new Position($x,$y) );
             }
         }

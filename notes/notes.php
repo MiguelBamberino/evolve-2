@@ -43,46 +43,6 @@ class Behaviour{
 
 /*
 
-
-Actions : 
-Give 
-Take 
- 
-Absorb 
-Move 
- 
-Split 2 4  
-Birth 10% 20% 30% 40% 
-Merge 
-
-GIVE(from,to){
-	to.increaseEnergy( from.reduceEnergy(1) );
-} 
-TAKE(from,to){
-	to.increaseEnergy( from.reduceEnergy(1) );
-}
-ABSORB(target){
-	target.increaseEnergy(1);
-}
-MOVE(target,world){
-	position = target.decideMoveTo(World);
-  World.moveEntityTo(target);
-}
-SPLIT(target,segmenets){
-	spaces = World->adjacents(target->position)->unoccupied()
-  if(spaces->count() >= (segments-1) ){
-  	$energy = $target->energy();
-    $energy_chunk = $energy/$segments;
-    foreach($spaces as $space){
-    	$newEntity = Spawner::create($target->getGenome(),$energy_chunk);
-      World->placeAt($space,$newEntity);
-    }
-  }
-}
-BIRTH(target)
-MERGE(from,to)
-
-
 If States:  
 
 Self.energy | =,=>,>,<=,< | integer
