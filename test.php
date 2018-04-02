@@ -26,6 +26,7 @@ function runWorld($ticks){
 
   $world = new World('alpharia',10,10,1,$entities);
 
+  for($i=0;$i<=$ticks;$i++){
     renderWorld($world);
     testTickover($world);
   }
