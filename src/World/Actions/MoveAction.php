@@ -1,7 +1,12 @@
 <?php
-namespace evolve\World;
+namespace evolve\World\Actions;
 
-class MoveAction implements Action{
+use evolve\World\World;
+use evolve\World\Position;
+use evolve\World\Entity;
+use evolve\World\Condition;
+
+class MoveAction implements iAction{
   
   protected $where;
   

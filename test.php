@@ -1,10 +1,11 @@
 <?php
 include __DIR__."/vendor/autoload.php";
 
+use evolve\World\Actions\MoveAction;
+use evolve\World\Actions\AbsorbAction;
+use evolve\World\Actions\TakeAction;
+
 use evolve\World\World;
-use evolve\World\MoveAction;
-use evolve\World\AbsorbAction;
-use evolve\World\TakeAction;
 use evolve\World\Position;
 use evolve\World\Entity;
 use evolve\World\Condition;
@@ -15,7 +16,7 @@ $repo = new evolve\Storage\Repository('./tests/data/state0/worlds/');
 
 
 
-runWorld(60);
+runWorld(1000000);
 
 exit;
 
@@ -43,7 +44,7 @@ function testTickover($world){
     break;
   }
   $world->tickover();
-  sleep(1);
+  #sleep(1);
   
 }
 
@@ -98,6 +99,7 @@ function printAxis($number){
 function renderWorld($world){
   system('clear');
   print "\n";
+  print "\nKlioBytes:".memory_get_usage()/1024;
   print "\nTick:".$world->current_tick();
   print "\nHeight:".$world->height();
   print "\nWidth:".$world->width();
