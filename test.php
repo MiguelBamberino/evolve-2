@@ -3,6 +3,8 @@ include __DIR__."/vendor/autoload.php";
 
 use evolve\World\World;
 use evolve\World\MoveAction;
+use evolve\World\AbsorbAction;
+use evolve\World\TakeAction;
 use evolve\World\Position;
 use evolve\World\Entity;
 use evolve\World\Condition;
@@ -13,19 +15,12 @@ $repo = new evolve\Storage\Repository('./tests/data/state0/worlds/');
 
 
 
-runWorld(4);
+runWorld(60);
 
 exit;
 
 function runWorld($ticks){
-  $pos = new Position(2,3);
-  $pos2 = new Position(4,6);
-  $entities = new EntityCollection();
-  $entities->push( new Entity($pos,23) );
-  $entities->push( new Entity($pos2,33) );
-
-  $world = new World('alpharia',10,10,1,$entities);
-
+ $world = buildWorld();
   for($i=0;$i<=$ticks;$i++){
     renderWorld($world);
     testTickover($world);
@@ -35,20 +30,33 @@ function runWorld($ticks){
 
 function testTickover($world){
   
-  $cond = new Condition(Condition::SELF,"decayed",'=',  true);
+  $cond = new Condition(Condition::SELF,"energy",'<=',  50);
   $moveA = new MoveAction('RA');
+  $absorbA = new AbsorbAction();
+  $takeA = new TakeAction('first');
   foreach($world->getEntities() as $e){
-    $ret = $moveA->perform($e,$world,$cond);
+    if($cond->evaluate( $e , $world )){
+      $ret = $takeA->perform($e,$world,$cond);
+    }else{
+      $ret = $moveA->perform($e,$world,$cond);
+    }
+    break;
   }
-  #$e->reduceEnergy(200);
-  #var_dump($ret);
-  #var_dump( $cond->evaluate( $e , $world ) );
   $world->tickover();
   sleep(1);
   
 }
 
+function buildWorld(){
+   $pos = new Position(2,3);
+  $pos2 = new Position(2,2);
+  $entities = new EntityCollection();
+  $entities->push( new Entity($pos,23) );
+  $entities->push( new Entity($pos2,33) );
 
+  return new World('alpharia',10,10,1,$entities);
+
+}
 
 foreach($world->getPositions() as $pos){
     var_dump($pos->x().','.$pos->y());
@@ -89,10 +97,14 @@ function printAxis($number){
 }
 function renderWorld($world){
   system('clear');
-  print "\n\n";
-  print "Tick:".$world->current_tick();
-  print "Height:".$world->height();
-  print "Width:".$world->width();
+  print "\n";
+  print "\nTick:".$world->current_tick();
+  print "\nHeight:".$world->height();
+  print "\nWidth:".$world->width();
+   foreach($world->getEntities() as $key=> $e){
+    #$ret = $moveA->perform($e,$world,$cond);
+     print "\n E".$key." : ".$e->energy();
+  }
   print "\n\n";
 
   $height = $world->height();
