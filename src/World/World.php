@@ -78,6 +78,13 @@ class World{
         $pos = $this->positions->getByCoords($pos->x(),$pos->y());
         #$pos->placeAt($entity->);
     }
+  public function addEntity(Entity $e){
+    $cPos = $e->position();
+    $newPos = $this->positions->getByCoords($cPos->x(),$cPos->y());
+    $placed = $e->placeAt($newPos);
+    
+    $this->entities->push($e);
+  }
   public function name(){
     return $this->name;
   }

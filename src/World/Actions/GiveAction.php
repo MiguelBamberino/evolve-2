@@ -6,11 +6,11 @@ use evolve\World\Position;
 use evolve\World\Entity;
 use evolve\World\Condition;
 
-class TakeAction extends AbstractEnergyTransferAction{
+class GiveAction extends AbstractEnergyTransferAction{
   
     public function perform(Entity $e, World $w, Condition $c){
       $target = $this->decideTarget($e,$w,$c);
-      return $this->transfer($target,$e);        
+      return $this->transfer($e,$target);        
     }
 
   

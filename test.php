@@ -4,6 +4,8 @@ include __DIR__."/vendor/autoload.php";
 use evolve\World\Actions\MoveAction;
 use evolve\World\Actions\AbsorbAction;
 use evolve\World\Actions\TakeAction;
+use evolve\World\Actions\GiveAction;
+use evolve\World\Actions\SplitAction;
 
 use evolve\World\World;
 use evolve\World\Position;
@@ -15,8 +17,9 @@ use evolve\Collections\EntityCollection;
 $repo = new evolve\Storage\Repository('./tests/data/state0/worlds/');
 
 
+   # testAction();
 
-runWorld(1000000);
+runWorld(100);
 
 exit;
 
@@ -31,20 +34,45 @@ function runWorld($ticks){
 
 function testTickover($world){
   
-  $cond = new Condition(Condition::SELF,"energy",'<=',  50);
+  $lowE = new Condition(Condition::SELF,"energy",'<=',  20);
+  $readyToSplit = new Condition(Condition::SELF,"energy",'>=',  20);
   $moveA = new MoveAction('RA');
   $absorbA = new AbsorbAction();
   $takeA = new TakeAction('first');
+  $giveA = new GiveAction('first');
+  $splitA = new SplitAction(2);
   foreach($world->getEntities() as $e){
-    if($cond->evaluate( $e , $world )){
-      $ret = $takeA->perform($e,$world,$cond);
-    }else{
-      $ret = $moveA->perform($e,$world,$cond);
+    if($lowE->evaluate( $e , $world )){
+      $ret = $absorbA->perform($e,$world,$lowE);
+      continue;
+    }
+    if($readyToSplit->evaluate($e,$world)){
+      $ret = $splitA->perform($e,$world,$readyToSplit);
+      continue;
     }
     break;
   }
   $world->tickover();
-  #sleep(1);
+  sleep(1);
+  
+}
+function testAction(){
+  
+  $world = buildWorld();
+  renderWorld($world,false);
+    
+  $cond = new Condition(Condition::SELF,"energy",'<=',  30);
+  $moveA = new MoveAction('RA');
+  $absorbA = new AbsorbAction();
+  $takeA = new TakeAction('first');
+  $giveA = new GiveAction('first');
+  $splitA = new SplitAction(2);
+  $e = $world->getEntities()->getFirst();
+  $ret = $splitA->perform($e,$world,$cond);
+  $world->tickover();
+  sleep(1);
+  renderWorld($world,false);
+  
   
 }
 
@@ -52,10 +80,10 @@ function buildWorld(){
    $pos = new Position(2,3);
   $pos2 = new Position(2,2);
   $entities = new EntityCollection();
-  $entities->push( new Entity($pos,23) );
-  $entities->push( new Entity($pos2,33) );
+  $entities->push( new Entity($pos,20) );
+  $entities->push( new Entity($pos2,30) );
 
-  return new World('alpharia',10,10,1,$entities);
+  return new World('alpharia',20,10,1,$entities);
 
 }
 
@@ -96,8 +124,8 @@ function printAxis($number){
     print " ".$number." |";
   }
 }
-function renderWorld($world){
-  system('clear');
+function renderWorld($world,$refresh=true){
+  if($refresh)system('clear');
   print "\n";
   print "\nKlioBytes:".memory_get_usage()/1024;
   print "\nTick:".$world->current_tick();
@@ -105,7 +133,7 @@ function renderWorld($world){
   print "\nWidth:".$world->width();
    foreach($world->getEntities() as $key=> $e){
     #$ret = $moveA->perform($e,$world,$cond);
-     print "\n E".$key." : ".$e->energy();
+     print " | E".$key." : ".$e->energy();
   }
   print "\n\n";
 
